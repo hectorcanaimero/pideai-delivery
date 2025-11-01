@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/client'
 import { OrderStatus } from './OrderStatus'
 import { OrderFilters, OrderFiltersState } from './OrderFilters'
 import { SearchBar } from '@/components/shared/SearchBar'
+import { AssignRiderModal } from './AssignRiderModal'
 import {
   Table,
   TableBody,
@@ -17,7 +18,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-import { ChevronLeft, ChevronRight, Package, Eye } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Package, Eye, UserPlus } from 'lucide-react'
 
 interface Order {
   id: string
@@ -48,6 +49,8 @@ export function OrdersTable() {
   })
   const [currentPage, setCurrentPage] = useState(1)
   const [totalCount, setTotalCount] = useState(0)
+  const [assignModalOpen, setAssignModalOpen] = useState(false)
+  const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null)
   const supabase = createClient()
 
   const fetchOrders = async () => {
@@ -110,6 +113,15 @@ export function OrdersTable() {
   const handleSearchChange = (value: string) => {
     setSearch(value)
     setCurrentPage(1) // Reset a primera página
+  }
+
+  const handleAssignRider = (orderId: string) => {
+    setSelectedOrderId(orderId)
+    setAssignModalOpen(true)
+  }
+
+  const handleAssignSuccess = () => {
+    fetchOrders() // Recargar tabla después de asignar
   }
 
   if (loading && orders.length === 0) {
@@ -222,12 +234,25 @@ export function OrdersTable() {
                           })}
                         </TableCell>
                         <TableCell className="text-right">
-                          <Link href={`/orders/${order.id}`}>
-                            <Button variant="ghost" size="sm" className="gap-2">
-                              <Eye className="h-4 w-4" />
-                              Ver
-                            </Button>
-                          </Link>
+                          <div className="flex items-center justify-end gap-2">
+                            <Link href={`/orders/${order.id}`}>
+                              <Button variant="ghost" size="sm" className="gap-2">
+                                <Eye className="h-4 w-4" />
+                                Ver
+                              </Button>
+                            </Link>
+                            {order.status === 'pending' && (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="gap-2"
+                                onClick={() => handleAssignRider(order.id)}
+                              >
+                                <UserPlus className="h-4 w-4" />
+                                Asignar Rider
+                              </Button>
+                            )}
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -272,6 +297,16 @@ export function OrdersTable() {
           )}
         </CardContent>
       </Card>
+
+      {/* Modal de asignación */}
+      {selectedOrderId && (
+        <AssignRiderModal
+          open={assignModalOpen}
+          onOpenChange={setAssignModalOpen}
+          orderId={selectedOrderId}
+          onSuccess={handleAssignSuccess}
+        />
+      )}
     </div>
   )
 }
