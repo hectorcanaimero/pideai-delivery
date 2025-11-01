@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { OrderStatus } from './OrderStatus'
 import { OrderFilters, OrderFiltersState } from './OrderFilters'
@@ -17,7 +18,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-import { ChevronLeft, ChevronRight, Package, UserPlus } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Package, Eye, UserPlus } from 'lucide-react'
 
 interface Order {
   id: string
@@ -233,17 +234,25 @@ export function OrdersTable() {
                           })}
                         </TableCell>
                         <TableCell className="text-right">
-                          {order.status === 'pending' && (
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="gap-2"
-                              onClick={() => handleAssignRider(order.id)}
-                            >
-                              <UserPlus className="h-4 w-4" />
-                              Asignar Rider
-                            </Button>
-                          )}
+                          <div className="flex items-center justify-end gap-2">
+                            <Link href={`/orders/${order.id}`}>
+                              <Button variant="ghost" size="sm" className="gap-2">
+                                <Eye className="h-4 w-4" />
+                                Ver
+                              </Button>
+                            </Link>
+                            {order.status === 'pending' && (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="gap-2"
+                                onClick={() => handleAssignRider(order.id)}
+                              >
+                                <UserPlus className="h-4 w-4" />
+                                Asignar Rider
+                              </Button>
+                            )}
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))}
