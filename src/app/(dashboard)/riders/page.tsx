@@ -1,3 +1,19 @@
+/**
+ * Página de Riders - PideAI Admin
+ *
+ * Lista completa de riders con estados, ubicaciones y pedidos activos.
+ * Actualización en tiempo real.
+ *
+ * @module app/(dashboard)/riders/page
+ */
+
+import { RidersTable } from '@/components/riders/RidersTable'
+
+/**
+ * Componente de página de Riders
+ *
+ * @returns {JSX.Element} Página de riders con tabla
+ */
 export default function RidersPage() {
   return (
     <div className="space-y-6">
@@ -7,11 +23,9 @@ export default function RidersPage() {
           Gestiona los repartidores de la plataforma
         </p>
       </div>
-      <div className="rounded-lg border bg-card p-8 text-center">
-        <p className="text-muted-foreground">
-          Página de riders - Implementación pendiente
-        </p>
-      </div>
+
+      {/* Tabla de riders */}
+      <RidersTable />
     </div>
   )
 }
