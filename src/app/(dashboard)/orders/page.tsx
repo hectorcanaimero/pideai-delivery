@@ -1,3 +1,13 @@
+/**
+ * Página de Pedidos - PideAI Admin
+ *
+ * Lista de pedidos de la plataforma.
+ *
+ * @module app/(dashboard)/orders/page
+ */
+
+import { OrdersTable } from '@/components/orders/OrdersTable'
+
 export default function OrdersPage() {
   return (
     <div className="space-y-6">
@@ -7,11 +17,9 @@ export default function OrdersPage() {
           Gestiona todos los pedidos de la plataforma
         </p>
       </div>
-      <div className="rounded-lg border bg-card p-8 text-center">
-        <p className="text-muted-foreground">
-          Página de pedidos - Implementación pendiente
-        </p>
-      </div>
+
+      {/* Tabla de pedidos */}
+      <OrdersTable />
     </div>
   )
 }
