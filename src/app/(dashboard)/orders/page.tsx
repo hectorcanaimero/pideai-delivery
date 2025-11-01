@@ -1,13 +1,19 @@
 /**
  * Página de Pedidos - PideAI Admin
  *
- * Lista de pedidos de la plataforma.
+ * Lista completa de pedidos con filtros, búsqueda y paginación.
+ * Permite gestionar todos los pedidos de la plataforma.
  *
  * @module app/(dashboard)/orders/page
  */
 
 import { OrdersTable } from '@/components/orders/OrdersTable'
 
+/**
+ * Componente de página de Pedidos
+ *
+ * @returns {JSX.Element} Página de pedidos con tabla filtrable
+ */
 export default function OrdersPage() {
   return (
     <div className="space-y-6">
@@ -18,7 +24,7 @@ export default function OrdersPage() {
         </p>
       </div>
 
-      {/* Tabla de pedidos */}
+      {/* Tabla de pedidos con filtros */}
       <OrdersTable />
     </div>
   )
