@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { OrderStatus } from './OrderStatus'
 import { OrderFilters, OrderFiltersState } from './OrderFilters'
@@ -16,7 +17,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-import { ChevronLeft, ChevronRight, Package } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Package, Eye } from 'lucide-react'
 
 interface Order {
   id: string
@@ -177,6 +178,7 @@ export function OrdersTable() {
                       <TableHead>Total</TableHead>
                       <TableHead>Estado</TableHead>
                       <TableHead>Fecha</TableHead>
+                      <TableHead className="text-right">Acciones</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -218,6 +220,14 @@ export function OrdersTable() {
                             hour: '2-digit',
                             minute: '2-digit',
                           })}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <Link href={`/orders/${order.id}`}>
+                            <Button variant="ghost" size="sm" className="gap-2">
+                              <Eye className="h-4 w-4" />
+                              Ver
+                            </Button>
+                          </Link>
                         </TableCell>
                       </TableRow>
                     ))}
