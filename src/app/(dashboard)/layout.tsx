@@ -1,29 +1,33 @@
-/**
- * Layout para el Dashboard
- *
- * Este layout envuelve todas las páginas del dashboard.
- * Por ahora es un layout simple que será extendido en TASK-006.
- *
- * @module app/(dashboard)/layout
- */
+import { Sidebar } from '@/components/layout/Sidebar'
+import { Header } from '@/components/layout/Header'
 
-import type { Metadata } from 'next'
-
-export const metadata: Metadata = {
-  title: 'Dashboard - PideAI Admin',
-  description: 'Panel de administración de PideAI Delivery',
-}
-
-interface DashboardLayoutProps {
+export default function DashboardLayout({
+  children,
+}: {
   children: React.ReactNode
-}
+}) {
+  // TODO: Obtener usuario de sesión cuando se implemente autenticación
+  const user = {
+    name: 'Admin User',
+    email: 'admin@pideai.com',
+    avatar: undefined,
+  }
 
-export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
-    <div className="min-h-screen bg-background">
-      {/* Por ahora solo renderizamos children */}
-      {/* En TASK-006 se agregará Sidebar y Header */}
-      {children}
+    <div className="flex h-screen overflow-hidden">
+      {/* Sidebar */}
+      <Sidebar />
+
+      {/* Main Content */}
+      <div className="flex flex-1 flex-col overflow-hidden">
+        {/* Header */}
+        <Header user={user} />
+
+        {/* Page Content */}
+        <main className="flex-1 overflow-y-auto bg-muted/30 p-6">
+          {children}
+        </main>
+      </div>
     </div>
   )
 }
